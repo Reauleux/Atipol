@@ -78,6 +78,99 @@ class All_data extends CI_Controller {
         return print_r($this->datatables->generate());
     }
 
+    public function excel()
+    {
+        $this->load->helper('exportexcel');
+        $namaFile = "all_data_lopita.xls";
+        $judul = "LOPITA";
+        $tablehead = 0;
+        $tablebody = 1;
+        $nourut = 1;
+        //penulisan header
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+        header("Content-Disposition: attachment;filename=" . $namaFile . "");
+        header("Content-Transfer-Encoding: binary ");
+
+        xlsBOF();
+
+        $kolomhead = 0;
+        xlsWriteLabel($tablehead, $kolomhead++, "ID LOP");
+	xlsWriteLabel($tablehead, $kolomhead++, "Teritori");
+	xlsWriteLabel($tablehead, $kolomhead++, "Nama Witel");
+	xlsWriteLabel($tablehead, $kolomhead++, "Nama Project");
+	xlsWriteLabel($tablehead, $kolomhead++, "Pekerjaan");
+	xlsWriteLabel($tablehead, $kolomhead++, "Jenis Pekerjaan");
+	xlsWriteLabel($tablehead, $kolomhead++, "Id Program");
+	xlsWriteLabel($tablehead, $kolomhead++, "Id Deployer");
+	xlsWriteLabel($tablehead, $kolomhead++, "Nilai Rekon");
+	xlsWriteLabel($tablehead, $kolomhead++, "Bulan Tahun");
+	xlsWriteLabel($tablehead, $kolomhead++, "Status Pekerjaan");
+	xlsWriteLabel($tablehead, $kolomhead++, "Vess");
+	xlsWriteLabel($tablehead, $kolomhead++, "No Vestyna");
+	xlsWriteLabel($tablehead, $kolomhead++, "Pr");
+	xlsWriteLabel($tablehead, $kolomhead++, "Po");
+	xlsWriteLabel($tablehead, $kolomhead++, "No Po");
+	xlsWriteLabel($tablehead, $kolomhead++, "Ba Rekon");
+	xlsWriteLabel($tablehead, $kolomhead++, "File");
+	xlsWriteLabel($tablehead, $kolomhead++, "Bast");
+	xlsWriteLabel($tablehead, $kolomhead++, "Inv");
+	xlsWriteLabel($tablehead, $kolomhead++, "No Inv");
+	xlsWriteLabel($tablehead, $kolomhead++, "Bulan Bast");
+	xlsWriteLabel($tablehead, $kolomhead++, "Id Status");
+	xlsWriteLabel($tablehead, $kolomhead++, "Anggaran");
+	xlsWriteLabel($tablehead, $kolomhead++, "Gm");
+	xlsWriteLabel($tablehead, $kolomhead++, "Baut");
+	xlsWriteLabel($tablehead, $kolomhead++, "Comment");
+	xlsWriteLabel($tablehead, $kolomhead++, "Status Data");
+	xlsWriteLabel($tablehead, $kolomhead++, "Oleh");
+
+	foreach ($this->admin_model->cek_induk() as $data) {
+            $kolombody = 0;
+
+            //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
+            xlsWriteLabel($tablebody, $kolombody++, $data->id_lop);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->nama_teritori);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->nama_witel);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->id_project);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->pekerjaan);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->nama_pekerjaan);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->nama_program);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->id_deployer);
+	    xlsWriteNumber($tablebody, $kolombody++, $data->nilai_rekon);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->bulan_tahun);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->status_pekerjaan);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->vess);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->no_vestyna);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->pr);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->po);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->no_po);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->ba_rekon);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->file);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->bast);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->inv);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->no_inv);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->bulan_bast);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->nama_status);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->anggaran);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->nama_gmpm);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->baut);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->comment);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->status_data);
+	    xlsWriteLabel($tablebody, $kolombody++, $data->oleh);
+
+	    $tablebody++;
+            $nourut++;
+        }
+
+        xlsEOF();
+        exit();
+    }
+
     	public function input()
 	{
 		if($this->session->userdata('logged_in') == FALSE)
@@ -119,11 +212,9 @@ class All_data extends CI_Controller {
 				$this->form_validation->set_rules('pekerjaan', 'Pekerjaan', 'trim|required');
 				$this->form_validation->set_rules('jenis_pekerjaan', 'Jenis Pekerjaan', 'trim|required');
 				$this->form_validation->set_rules('program', 'Program', 'trim|required');
-				$this->form_validation->set_rules('id_deployer', 'ID Deployer', 'trim|required');
 				$this->form_validation->set_rules('nilai_rekon', 'Nilai Rekon', 'trim|required');
 				$this->form_validation->set_rules('bulan_tahun', 'Bulan Tahun', 'trim|required');
 				$this->form_validation->set_rules('status_pekerjaan', 'Status Pekerjaan', 'trim|required');
-				$this->form_validation->set_rules('bulan_bast', 'Bulan BAST', 'trim|required');
 				$this->form_validation->set_rules('status', 'Status', 'trim|required');
 				$this->form_validation->set_rules('anggaran', 'Anggaran', 'trim|required');
 				$this->form_validation->set_rules('gmpm', 'GM / PM', 'trim|required');
@@ -142,7 +233,7 @@ class All_data extends CI_Controller {
 					redirect('all_data');					
 				}
 				}
-				else
+			else
 				{
 					$data['notif'] = validation_errors();
 					$this->load->view('template', $data);					

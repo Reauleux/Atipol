@@ -9,6 +9,12 @@ class Admin_model extends CI_Model {
 		//Do your magic here
 	}
 
+	function get_all()
+    {
+        $this->db->order_by('id_lop', 'DESC');
+        return $this->db->get('tb_induk')->result();
+    }
+
 	public function cek_role($nik)
 	{
 		$query = $this->db->query("SELECT * FROM tb_user WHERE nik ='$nik'");
@@ -129,6 +135,24 @@ class Admin_model extends CI_Model {
 		return $query->row()->PO;
 	}
 
+	public function count_file_rekon()
+	{
+		$query = $this->db->query("SELECT count(`nama_foto`) AS jumlah FROM `tb_foto` WHERE tipe_data='BA_REKON'");
+		return $query->row()->jumlah;
+	}
+
+	public function count_file_bast()
+	{
+		$query = $this->db->query("SELECT count(`nama_foto`) AS jumlah FROM `tb_foto` WHERE tipe_data='BAST'");
+		return $query->row()->jumlah;
+	}
+
+	public function count_file_po()
+	{
+		$query = $this->db->query("SELECT count(`nama_foto`) AS jumlah FROM `tb_foto` WHERE tipe_data='PO'");
+		return $query->row()->jumlah;
+	}
+
 	public function list_teritori()
 	{
 		$query = $this->db->query('SELECT * FROM tb_teritori');
@@ -221,7 +245,7 @@ class Admin_model extends CI_Model {
 		}
 	}
 
-	public function input_dummy($nik)
+	public function input_dummy($nik,$ba_rekon)
 	{
 		$query = $this->db->query("select max(max) as max_code FROM tb_incr");
 
@@ -271,6 +295,7 @@ class Admin_model extends CI_Model {
 		$this->db->insert('tb_induk_verif', $data);
 		$this->db->insert('tb_history', $data1);
 		$this->db->insert('tb_incr', array('max' => $lop));
+		$this->db->insert('tb_foto', $ba_rekon);
 
 		if($this->db->affected_rows() > 0)
 		{
@@ -331,6 +356,15 @@ class Admin_model extends CI_Model {
                                         LEFT JOIN tb_status F		ON F.id_status = A.id_status
                                         LEFT JOIN tb_gmpm G			ON G.id_gmpm = A.gm
                                         WHERE $where AND A.id_witel = '$witel' AND A.status_data = 'ok'");
+    return $query->result();
+	}
+
+	public function cek_file($where,$witel)
+	{
+	$query = $this->db->query("SELECT *,COUNT(A.nama_foto) AS jumlah FROM tb_foto A 
+															LEFT JOIN tb_induk B 	ON B.id_lop = A.id
+															WHERE tipe_data='$where' AND B.id_witel = '$witel' 
+															GROUP BY A.id,A.nama_foto ORDER BY A.id");
     return $query->result();
 	}
 

@@ -498,6 +498,66 @@ class User extends CI_Controller {
 		$this->load->view('template2', $data);
 		}
 	}
+
+	public function list_file_rekon()
+	{
+		if($this->session->userdata('logged_in') == FALSE)
+		{
+			redirect(base_url('index.php/user/login'));
+		}
+		$witel = $this->session->userdata('witel');
+		$where = 'BA_REKON';
+		if($this->session->userdata('status') != 'USER')
+		{
+			redirect(base_url('index.php/user/dashboard'));
+		}
+		else
+		{
+		$data['main_view'] = 'list_file_view';
+		$data['user'] = $this->admin_model->cek_file($where,$witel);
+		$this->load->view('template2', $data);
+		}
+	}
+
+	public function list_file_bast()
+	{
+		if($this->session->userdata('logged_in') == FALSE)
+		{
+			redirect(base_url('index.php/user/login'));
+		}
+		$witel = $this->session->userdata('witel');
+		$where = 'BAST';
+		if($this->session->userdata('status') != 'USER')
+		{
+			redirect(base_url('index.php/user/dashboard'));
+		}
+		else
+		{
+		$data['main_view'] = 'list_file_view';
+		$data['user'] = $this->admin_model->cek_file($where,$witel);
+		$this->load->view('template2', $data);
+		}
+	}
+
+	public function list_file_po()
+	{
+		if($this->session->userdata('logged_in') == FALSE)
+		{
+			redirect(base_url('index.php/user/login'));
+		}
+		$witel = $this->session->userdata('witel');
+		$where = 'PO';
+		if($this->session->userdata('status') != 'USER')
+		{
+			redirect(base_url('index.php/user/dashboard'));
+		}
+		else
+		{
+		$data['main_view'] = 'list_file_view';
+		$data['user'] = $this->admin_model->cek_file($where,$witel);
+		$this->load->view('template2', $data);
+		}
+	}
 }
 /* End of file user.php */
 /* Location: ./application/controllers/user.php */

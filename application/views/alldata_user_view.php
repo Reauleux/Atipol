@@ -16,8 +16,10 @@ td{
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>ALL DATA</h2>
+                            <h2>ALL DATA
+        <?php echo anchor(site_url('all_data/excel'), ' <i class="fa fa-file-excel-o"></i> Excel', 'class="btn btn-primary btn-sm"'); ?></h2>
                         </div>
+
                         <div class="body">
                             <div class="row clearfix">
                                 <div class="table-responsive">
@@ -79,9 +81,9 @@ td{
         </div>
     </section>
 
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+        <script src="<?php echo base_url('assets/js/jquery-1.11.2.min.js') ?>"></script>
+<script src="<?php echo base_url('assets/datatables/jquery.dataTables.js') ?>"></script>
+<script src="<?php echo base_url('assets/datatables/dataTables.bootstrap.js') ?>"></script>
         <script type="text/javascript">
  
             var save_method; //for save method string

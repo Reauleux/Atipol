@@ -161,6 +161,9 @@
                     if($this->uri->segment(2) == 'list_po_bast'){echo '<li class="active">';}
                     if($this->uri->segment(2) == 'list_po_inv'){echo '<li class="active">';}
                     if($this->uri->segment(2) == 'list_po_sudah'){echo '<li class="active">';}
+                    if($this->uri->segment(2) == 'list_file_rekon'){echo '<li class="active">';}
+                    if($this->uri->segment(2) == 'list_file_bast'){echo '<li class="active">';}
+                    if($this->uri->segment(2) == 'list_file_po'){echo '<li class="active">';}
                     
                     if($this->session->userdata('status') == 'ADMIN')
                     {
@@ -207,38 +210,17 @@
                     '
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">view_list</i>
-                            <span>Non PO</span>
+                            <span>File Data</span>
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="'.base_url().'index.php/user/list_nopo_ogp">Pekerjaan OGP</a>
+                                <a href="'.base_url().'index.php/user/list_file_rekon">File Rekon</a>
                             </li>
                             <li>
-                                <a href="'.base_url().'index.php/user/list_nopo_belum">Belum Rekon</a>
+                                <a href="'.base_url().'index.php/user/list_file_bast">File BAST</a>
                             </li>
                             <li>
-                                <a href="'.base_url().'index.php/user/list_nopo_sudah">Sudah Rekon</a>
-                            </li>
-                        </ul>
-                        <a href="javascript:void(0);" class="menu-toggle">
-                            <i class="material-icons">view_list</i>
-                            <span>PO</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="'.base_url().'index.php/user/list_po_ogp">Pekerjaan OGP</a>
-                            </li>
-                            <li>
-                                <a href="'.base_url().'index.php/user/list_po_belum">Belum Rekon</a>
-                            </li>
-                            <li>
-                                <a href="'.base_url().'index.php/user/list_po_bast">Rekon Belum BAST</a>
-                            </li>
-                            <li>
-                                <a href="'.base_url().'index.php/user/list_po_inv">BAST Belum INV</a>
-                            </li>
-                            <li>
-                                <a href="'.base_url().'index.php/user/list_po_sudah">Close</a>
+                                <a href="'.base_url().'index.php/user/list_file_po">File PO</a>
                             </li>
                         </ul>
                     ';

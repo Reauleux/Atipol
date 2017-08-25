@@ -13,6 +13,14 @@
                             </h2>
                         </div>
                         <div class="body">
+                        <?php
+                        if(!empty($notif))
+                        {
+                            echo '<div class="alert alert-danger">';
+                            echo $notif;
+                            echo '</div>';
+                        }
+                        ?>
                         <form method="post" enctype="multipart/form-data" action="<?php echo base_url(); ?>index.php/all_data/input/<?php echo $induk->id_lop; ?>">
                         <div class="row clearfix">
                                 <div class="col-sm-6">
